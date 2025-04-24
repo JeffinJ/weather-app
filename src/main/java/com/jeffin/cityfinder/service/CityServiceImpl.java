@@ -6,6 +6,7 @@ import com.jeffin.cityfinder.model.City;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    @Cacheable(value = "citiesByLetter", key = "#letter.toLowerCase()")
     public CityResponse findCitiesByStartingLetter(String letter) {
         logger.debug("Finding cities starting with letter: {}", letter);
 
@@ -46,6 +48,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    @Cacheable(value = "allCities")
     public CityResponse getAllCities() {
         logger.debug("Fetching all cities");
 

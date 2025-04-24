@@ -34,13 +34,14 @@ public class WeatherApiClient {
         this.apiUrl = apiUrl;
     }
 
+    @Cacheable(value = "cityData")
     @Retryable(
             maxAttempts = 3,
             backoff = @Backoff(delay = 100)
     )
     public List<City> fetchCities() {
         try {
-            logger.debug("Fetching cities from external API: {}", apiUrl);
+            logger.debug("🟦 Fetching cities from external API: {}", apiUrl);
 
             ResponseEntity<WeatherApiResponse> response =
                     restTemplate.getForEntity(apiUrl, WeatherApiResponse.class);
